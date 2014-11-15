@@ -73,28 +73,51 @@ namespace strange.extensions.signal.impl
     /// Base concrete form for a Signal with no parameters
     public class Signal : BaseSignal
     {
-        public event Action Listener = delegate { };
-        public event Action OnceListener = delegate { };
+        Action _Listener = delegate { };
+        public event Action Listener
+        {
+            add
+            {
+                _Listener += value;
+            }
+            remove
+            {
+                _Listener -= value;
+            }
+        }
+
+        Action _OnceListener = delegate { };
+        public event Action OnceListener
+        {
+            add
+            {
+                _OnceListener += value;
+            }
+            remove
+            {
+                _OnceListener -= value;
+            }
+        }
 
         public void AddListener(Action callback)
         {
-            Listener = this.AddUnique(Listener, callback);
+            _Listener = this.AddUnique(_Listener, callback);
         }
 
         public void AddOnce(Action callback)
         {
-            OnceListener = this.AddUnique(Listener, callback);
+            _OnceListener = this.AddUnique(_Listener, callback);
         }
-        public void RemoveListener(Action callback) { Listener -= callback; }
+        public void RemoveListener(Action callback) { _Listener -= callback; }
         public override List<Type> GetTypes()
         {
             return new List<Type>();
         }
         public void Dispatch()
         {
-            Listener();
-            OnceListener();
-            OnceListener = delegate { };
+            _Listener();
+            _OnceListener();
+            _OnceListener = delegate { };
             base.Dispatch(null);
         }
 
@@ -111,20 +134,43 @@ namespace strange.extensions.signal.impl
     /// Base concrete form for a Signal with one parameter
     public class Signal<T> : BaseSignal
     {
-        public event Action<T> Listener = delegate { };
-        public event Action<T> OnceListener = delegate { };
+        Action<T> _Listener = delegate { };
+        public event Action<T> Listener
+        {
+            add
+            {
+                _Listener += value;
+            }
+            remove
+            {
+                _Listener -= value;
+            }
+        }
+
+        Action<T> _OnceListener = delegate { };
+        public event Action<T> OnceListener
+        {
+            add
+            {
+                _OnceListener += value;
+            }
+            remove
+            {
+                _OnceListener -= value;
+            }
+        }
 
         public void AddListener(Action<T> callback)
         {
-            Listener = this.AddUnique(Listener, callback);
+            _Listener = this.AddUnique(_Listener, callback);
         }
 
         public void AddOnce(Action<T> callback)
         {
-            OnceListener = this.AddUnique(Listener, callback);
+            _OnceListener = this.AddUnique(_Listener, callback);
         }
 
-        public void RemoveListener(Action<T> callback) { Listener -= callback; }
+        public void RemoveListener(Action<T> callback) { _Listener -= callback; }
         public override List<Type> GetTypes()
         {
             List<Type> retv = new List<Type>();
@@ -133,9 +179,9 @@ namespace strange.extensions.signal.impl
         }
         public void Dispatch(T type1)
         {
-            Listener(type1);
-            OnceListener(type1);
-            OnceListener = delegate { };
+            _Listener(type1);
+            _OnceListener(type1);
+            _OnceListener = delegate { };
             object[] outv = { type1 };
             base.Dispatch(outv);
         }
@@ -153,20 +199,43 @@ namespace strange.extensions.signal.impl
     /// Base concrete form for a Signal with two parameters
     public class Signal<T, U> : BaseSignal
     {
-        public event Action<T, U> Listener = delegate { };
-        public event Action<T, U> OnceListener = delegate { };
+        Action<T, U> _Listener = delegate { };
+        public event Action<T, U> Listener
+        {
+            add
+            {
+                _Listener += value;
+            }
+            remove
+            {
+                _Listener -= value;
+            }
+        }
+
+        Action<T, U> _OnceListener = delegate { };
+        public event Action<T, U> OnceListener
+        {
+            add
+            {
+                _OnceListener += value;
+            }
+            remove
+            {
+                _OnceListener -= value;
+            }
+        }
 
         public void AddListener(Action<T, U> callback)
         {
-            Listener = this.AddUnique(Listener, callback);
+            _Listener = this.AddUnique(_Listener, callback);
         }
 
         public void AddOnce(Action<T, U> callback)
         {
-            OnceListener = this.AddUnique(Listener, callback);
+            _OnceListener = this.AddUnique(_Listener, callback);
         }
 
-        public void RemoveListener(Action<T, U> callback) { Listener -= callback; }
+        public void RemoveListener(Action<T, U> callback) { _Listener -= callback; }
         public override List<Type> GetTypes()
         {
             List<Type> retv = new List<Type>();
@@ -176,9 +245,9 @@ namespace strange.extensions.signal.impl
         }
         public void Dispatch(T type1, U type2)
         {
-            Listener(type1, type2);
-            OnceListener(type1, type2);
-            OnceListener = delegate { };
+            _Listener(type1, type2);
+            _OnceListener(type1, type2);
+            _OnceListener = delegate { };
             object[] outv = { type1, type2 };
             base.Dispatch(outv);
         }
@@ -195,20 +264,43 @@ namespace strange.extensions.signal.impl
     /// Base concrete form for a Signal with three parameters
     public class Signal<T, U, V> : BaseSignal
     {
-        public event Action<T, U, V> Listener = delegate { };
-        public event Action<T, U, V> OnceListener = delegate { };
+        Action<T, U, V> _Listener = delegate { };
+        public event Action<T, U, V> Listener
+        {
+            add
+            {
+                _Listener += value;
+            }
+            remove
+            {
+                _Listener -= value;
+            }
+        }
+
+        Action<T, U, V> _OnceListener = delegate { };
+        public event Action<T, U, V> OnceListener
+        {
+            add
+            {
+                _OnceListener += value;
+            }
+            remove
+            {
+                _OnceListener -= value;
+            }
+        }
 
         public void AddListener(Action<T, U, V> callback)
         {
-            Listener = this.AddUnique(Listener, callback);
+            _Listener = this.AddUnique(_Listener, callback);
         }
 
         public void AddOnce(Action<T, U, V> callback)
         {
-            OnceListener = this.AddUnique(OnceListener, callback);
+            _OnceListener = this.AddUnique(_OnceListener, callback);
         }
 
-        public void RemoveListener(Action<T, U, V> callback) { Listener -= callback; }
+        public void RemoveListener(Action<T, U, V> callback) { _Listener -= callback; }
         public override List<Type> GetTypes()
         {
             List<Type> retv = new List<Type>();
@@ -219,9 +311,9 @@ namespace strange.extensions.signal.impl
         }
         public void Dispatch(T type1, U type2, V type3)
         {
-            Listener(type1, type2, type3);
-            OnceListener(type1, type2, type3);
-            OnceListener = delegate { };
+            _Listener(type1, type2, type3);
+            _OnceListener(type1, type2, type3);
+            _OnceListener = delegate { };
             object[] outv = { type1, type2, type3 };
             base.Dispatch(outv);
         }
@@ -238,20 +330,43 @@ namespace strange.extensions.signal.impl
     /// Base concrete form for a Signal with four parameters
     public class Signal<T, U, V, W> : BaseSignal
     {
-        public event Action<T, U, V, W> Listener = delegate { };
-        public event Action<T, U, V, W> OnceListener = delegate { };
+        Action<T, U, V, W> _Listener = delegate { };
+        public event Action<T, U, V, W> Listener
+        {
+            add
+            {
+                _Listener += value;
+            }
+            remove
+            {
+                _Listener -= value;
+            }
+        }
+
+        Action<T, U, V, W> _OnceListener = delegate { };
+        public event Action<T, U, V, W> OnceListener
+        {
+            add
+            {
+                _OnceListener += value;
+            }
+            remove
+            {
+                _OnceListener -= value;
+            }
+        }
 
         public void AddListener(Action<T, U, V, W> callback)
         {
-            Listener = this.AddUnique(Listener, callback);
+            _Listener = this.AddUnique(_Listener, callback);
         }
 
         public void AddOnce(Action<T, U, V, W> callback)
         {
-            OnceListener = this.AddUnique(OnceListener, callback);
+            _OnceListener = this.AddUnique(_OnceListener, callback);
         }
 
-        public void RemoveListener(Action<T, U, V, W> callback) { Listener -= callback; }
+        public void RemoveListener(Action<T, U, V, W> callback) { _Listener -= callback; }
         public override List<Type> GetTypes()
         {
             List<Type> retv = new List<Type>();
@@ -263,9 +378,9 @@ namespace strange.extensions.signal.impl
         }
         public void Dispatch(T type1, U type2, V type3, W type4)
         {
-            Listener(type1, type2, type3, type4);
-            OnceListener(type1, type2, type3, type4);
-            OnceListener = delegate { };
+            _Listener(type1, type2, type3, type4);
+            _OnceListener(type1, type2, type3, type4);
+            _OnceListener = delegate { };
             object[] outv = { type1, type2, type3, type4 };
             base.Dispatch(outv);
         }
